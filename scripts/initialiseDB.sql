@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2019 at 03:47 AM
+-- Generation Time: Dec 13, 2019 at 02:59 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.11
 
@@ -30,10 +30,10 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `terms`;
 CREATE TABLE `terms` (
-                         `keyword_number` int(11) NOT NULL,
-                         `keyword` text NOT NULL,
-                         `definition` text NOT NULL,
-                         `views` int(11) NOT NULL DEFAULT 0
+  `keyword_number` int(11) NOT NULL,
+  `keyword` text NOT NULL,
+  `definition` text NOT NULL,
+  `views` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `terms` (
 -- Indexes for table `terms`
 --
 ALTER TABLE `terms`
-    ADD PRIMARY KEY (`keyword_number`);
+  ADD PRIMARY KEY (`keyword_number`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -54,7 +54,7 @@ ALTER TABLE `terms`
 -- AUTO_INCREMENT for table `terms`
 --
 ALTER TABLE `terms`
-    MODIFY `keyword_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `keyword_number` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
