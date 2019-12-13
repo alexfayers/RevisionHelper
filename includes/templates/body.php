@@ -4,10 +4,15 @@ require_once 'links.php';
 
 if (!isset($notice)) { // no notice
     $notice = '';
+    $noticeColour = '';
 }
 else {
+    if (!isset($noticeColour)) { // default notice colour
+        $noticeColour = 'yellow';
+    }
+
     $notice = <<< NOTICE
-<p style="color: green">$notice</p>
+<p style="color: $noticeColour">$notice</p>
 NOTICE;
 }
 

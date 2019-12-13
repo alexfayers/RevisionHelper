@@ -3,6 +3,8 @@
 
 class database
 {
+
+    // Initialise all local variables
     private $host = DB_HOST;
     private $user = DB_USER;
     private $pass = DB_PASS;
@@ -14,7 +16,7 @@ class database
 
     private $statement;
 
-    public function __construct()
+    public function __construct() // called on new object (connect to db)
     {
         $dsn = 'mysql:host=' . $this->host . ';dbname='. $this->dbname .';charset='. $this->charset;
 
@@ -32,11 +34,11 @@ class database
         }
     }
 
-    public function query($query) {
+    public function query($query) { // prepare a new query
         $this->statement = $this->dbh->prepare($query);
     }
 
-    public function bind($param, $value, $type = null){
+    public function bind($param, $value, $type = null){ // replace parameters with variable of type in query
         if (is_null($type)) {
             switch (true) {
                 case is_int($value): // if int
@@ -55,20 +57,25 @@ class database
         $this->statement->bindValue($param, $value, $type);
     }
 
-    public function execute(){
+    public function execute(){ // run query
         return $this->statement->execute();
     }
 
-    public function resultArray(){
+    public function resultArray(){ // array of query results
         $this->execute();
         return $this->statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function rowCount(){
+    public function single(){ // get single query reset
+        $this->execute();
+        return $this->statement->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function rowCount(){ // number of rows of query
         return $this->statement->rowCount();
     }
 
-    public function lastInsertId(){
+    public function lastInsertId(){ // id of latest insert
         return $this->dbh->lastInsertId();
     }
 

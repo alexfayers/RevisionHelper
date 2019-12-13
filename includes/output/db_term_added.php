@@ -18,4 +18,5 @@ $db->execute();
 // front end
 
 $notice = "Keyword '$keyword' added!";
+$noticeColour = 'green';
 include_once('add_term.php');
