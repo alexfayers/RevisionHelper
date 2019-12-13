@@ -2,7 +2,8 @@
 $linkArray = [
     "Main Menu" => 'main_menu',
     "Add Term" => 'add_term',
-    "Show All Terms" => 'show_all_terms'
+    "Show All Terms" => 'show_all_terms',
+    "Flashcards" => 'flashcards'
 ];
 
 $links = '';

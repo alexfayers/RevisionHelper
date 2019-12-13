@@ -27,5 +27,9 @@ switch($tab) {
         include_once('output/show_all_terms.php');
         break;
 
+    // learning stuff!
 
+    case 'flashcards':
+        include_once('output/flashcards.php');
+        break;
 }
