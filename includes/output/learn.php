@@ -26,7 +26,7 @@ foreach ($rows as $term) {
 $termsArray .= "]";
 
 $page = <<< PAGE
-<h2>Learn - Flashcards</h2>
+<h2>Learn - Test</h2>
 
 <table style='width:50%; text-align:center'>
     <tr>
@@ -42,13 +42,16 @@ $page = <<< PAGE
 <img id ="image" height="30%" src="">
 <br><br>
 
-<button id="flip" onclick="flip()">Flip card</button>
+<input id="answer" placeholder="Answer">
+
 <br><br>
-<button id="prev" onclick="prevCard()">Previous Card</button>
-<button id="next" onclick="nextCard()">Next Card</button>
+<button id="submit" onclick="submit()">submit</button>
 <br><br>
-<!--<button id="shuffle" onclick="shuffleDeck()" disabled>Shuffle Deck (in progress)</button>-->
+<hr>
+<p>Controls</p>
 <button id="toggleImages" onclick="toggleImages()">Turn Image Display Off</button>
+<button id="flip" onclick="flip()">Toggle Keyword or Definition</button>
+<br>
 
 <script>
     let deck = $termsArray;
@@ -56,15 +59,17 @@ $page = <<< PAGE
     let keywords = [];
     let definitions = [];
     let images = [];
-    let currentCard = 0;
+    let currentTerm = 0;
     let deckSize = deck.length;
     
     let imageDisplay = 1;
     
-    HTMLKeyword = document.getElementById("keyword");
-    HTMLDefinition = document.getElementById("definition");
-    HTMLImage = document.getElementById("image");
-    HTMLToggleImages = document.getElementById("toggleImages");
+    let HTMLKeyword = document.getElementById("keyword");
+    let HTMLDefinition = document.getElementById("definition");
+    let HTMLImage = document.getElementById("image");
+    let HTMLToggleImages = document.getElementById("toggleImages");
+    
+    let answer = '';
     
     shuffleArray(deck);
     
@@ -75,38 +80,53 @@ $page = <<< PAGE
     }
     
     function nextCard() {
-        if (currentCard < (deckSize - 1)) {
-            currentCard += 1;
+        if (currentTerm < (deckSize - 1)) {
+            currentTerm += 1;
         }
-        else if (currentCard >= (deckSize - 1)) {
-            currentCard = 0;
+        else if (currentTerm >= (deckSize - 1)) {
+            alert("That's all of your terms - nice!");
+            currentTerm = 0;
         }
         
         updateAll();
     }
     
-    function prevCard() {
-      if (currentCard > 0) {
-            currentCard -= 1;
-        }
-        else if (currentCard <= 0) {
-            currentCard = deckSize - 1;
+    function submit() {
+        let answer = document.getElementById("answer").value;
+        let correctAnswer = '';
+        
+        if (HTMLKeyword.style.visibility !== "hidden") { // keyword visible
+            correctAnswer = definitions[currentTerm].replace(/(<([^>]+)>)/ig,"");
+        } 
+        else { // definition visible
+            correctAnswer = keywords[currentTerm].replace(/(<([^>]+)>)/ig,"");
         }
         
-        updateAll();
+        if (answer.toLowerCase() === correctAnswer.toLowerCase()) {
+                alert("That's correct, well done!");
+                document.getElementById("answer").value = '';
+                nextCard();
+                // do something to do with database here
+            }
+            else {
+                alert("Unfortunately that's not quite right. Try again :)");
+                console.log(correctAnswer);
+                console.log(answer);
+            }
+        
     }
     
     function updateKeyword() {
-        HTMLKeyword.innerHTML = keywords[currentCard];
+        HTMLKeyword.innerHTML = keywords[currentTerm];
     }
     
     function updateDefinition() {
-      HTMLDefinition.innerHTML = definitions[currentCard];
+      HTMLDefinition.innerHTML = definitions[currentTerm];
     }
     
     function updateImage() {
-        if (images[currentCard] !== '') {
-            HTMLImage.src = 'uploads/' + images[currentCard];
+        if (images[currentTerm] !== '') {
+            HTMLImage.src = 'uploads/' + images[currentTerm];
         }
         else {
             console.log("no image");
@@ -115,7 +135,7 @@ $page = <<< PAGE
     }
     
     function updateAll() {
-        //if (HTMLkeyword.style.visibility === "hidden") {
+        //if (HTMLKeyword.style.visibility === "hidden") {
         //    flip(); // make sure the keyword always shows first
         //}
         
@@ -136,9 +156,7 @@ $page = <<< PAGE
     }
     
     function shuffleDeck() {
-        console.log(deck);
         shuffleArray(deck);
-        console.log(deck);
         nextCard();
         alert("Deck Shuffled!");
     }
@@ -158,6 +176,16 @@ $page = <<< PAGE
     updateAll();
     HTMLImage.style.visibility = "visible"; // enable images by default
     HTMLDefinition.style.visibility = "hidden"; // hide the definition to begin with
+    
+    addEventListener("keyup", function(event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.key === "Enter") {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("submit").click();
+      }
+    });
     
 </script>
 

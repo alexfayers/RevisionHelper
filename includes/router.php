@@ -32,4 +32,8 @@ switch($tab) {
     case 'flashcards':
         include_once('output/flashcards.php');
         break;
+
+    case 'learn':
+        include_once ('output/learn.php');
+        break;
 }

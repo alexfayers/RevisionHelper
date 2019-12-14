@@ -28,10 +28,10 @@ else {
         $allTerms .= '<td>' . $term['definition'] . '</td>';
 
         if (isset($term['image'])) {
-            $imageWidth = '10%';
+            $imageHeight = '30%';
             $image = $term['image'];
             $imgSource = '/uploads/' . $image;
-            $allTerms .= '<td><img src="' . $imgSource . '" width="' . $imageWidth . '"></td>';
+            $allTerms .= '<td><img src="' . $imgSource . '" height="' . $imageHeight . '"></td>';
         }
         else {
             $allTerms .= '<td>No image</td>';
